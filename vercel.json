@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/", "has": [{ "type": "cookie", "key": "bs_region", "value": "br" }], "destination": "/br", "permanent": false },
+    { "source": "/", "has": [{ "type": "cookie", "key": "bs_region", "value": "us" }], "destination": "/us", "permanent": false },
+    { "source": "/", "has": [{ "type": "header", "key": "x-vercel-ip-country", "value": "BR" }], "destination": "/br", "permanent": false },
+    { "source": "/", "destination": "/us", "permanent": false }
+  ]
+}
