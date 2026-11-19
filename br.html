@@ -120,11 +120,12 @@
 <div class="head c"><span class="kicker">Planos</span><h2>O anel e a equipe médica, em uma assinatura.</h2></div>
 <div class="plan">
 <span class="kicker light">Assinatura bodyself</span>
-<p class="price">R$ 52<small> /mês</small></p>
-<p class="ringline">+ anel bodyself com estojo de carga: <strong>R$ 310</strong> pagamento único</p>
+<p class="price"><span id="pMonth">US$ 10</span><small> /mês</small></p>
+<p class="ringline">+ anel bodyself com estojo de carga: <strong id="pRing">US$ 99</strong> pagamento único</p>
 <ul><li><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Anel bodyself Gold ou Black, com estojo de carga</span></li><li><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>App para iPhone e Android</span></li><li><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Monitoramento contínuo com alertas</span></li><li><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Mensagens com a equipe médica</span></li><li><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Teleconsultas por vídeo</span></li><li><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Receitas e exames no app</span></li></ul>
-<a href="https://buy.stripe.com/test_aFa8wP1CFggmbuC1NZdwc01" class="btn gold">Assinar agora</a>
-<span class="pnote">Valores em reais. Você escolhe a cor e o tamanho do anel (7 a 13, numeração dos EUA) no checkout.</span>
+<a href="https://buy.stripe.com/test_5kQ5kD8136FM2Y61NZdwc03" class="btn gold">Assinar agora</a>
+<span class="pnote" id="fxNote" hidden></span>
+<span class="pnote">Preço em dólar, convertido para reais pela cotação do dia. O valor final em reais aparece no pagamento. Você escolhe a cor e o tamanho do anel (7 a 13, numeração dos EUA) no checkout.</span>
 </div>
 </section>
 
@@ -140,6 +141,21 @@
 <footer class="foot">
 <div class="wrap footrow"><img src="/logo.svg" alt="bodyself" width="120" height="21"><p>O bodyself não substitui atendimento de emergência. Em caso de emergência, ligue 192 (SAMU).<br><span>American company · Brasil e Estados Unidos</span></p></div>
 </footer>
+<script>
+// Preço base em dólar; na versão Brasil mostra o valor em reais pela cotação do dia.
+(function(){
+  var USD_MONTH = 10, USD_RING = 99;
+  var brl = function(v){ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); };
+  fetch('https://open.er-api.com/v6/latest/USD').then(function(r){ return r.json(); }).then(function(d){
+    var rate = d && d.rates && d.rates.BRL; if (!rate) return;
+    document.getElementById('pMonth').textContent = brl(USD_MONTH * rate);
+    document.getElementById('pRing').textContent = brl(USD_RING * rate);
+    var n = document.getElementById('fxNote');
+    n.textContent = 'Equivale a US$ ' + USD_MONTH + '/mês + US$ ' + USD_RING + ' pelo anel. Cotação de hoje: US$ 1 = ' + brl(rate) + '.';
+    n.hidden = false;
+  }).catch(function(){});
+})();
+</script>
 <script>
 document.querySelectorAll('[data-region]').forEach(function(a){a.addEventListener('click',function(){document.cookie='bs_region='+a.dataset.region+';path=/;max-age=31536000;samesite=lax';});});
 </script>
